@@ -30,7 +30,7 @@
 #import "OSInAppMessageInternal.h"
 #import "OSInAppMessageView.h"
 #import "OSInAppMessageAction.h"
-#import <WebKit/WebKit.h>
+//#import <WebKit/WebKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -27,7 +27,7 @@
 
 #import "OSInAppMessageView.h"
 #import "OneSignalHelper.h"
-#import <WebKit/WebKit.h>
+//#import <WebKit/WebKit.h>
 #import "OSInAppMessageAction.h"
 #import "OneSignalViewHelper.h"
 #import "OSPlayerTags.h"
@@ -36,7 +36,7 @@
 @interface OSInAppMessageView () <UIScrollViewDelegate, WKUIDelegate, WKNavigationDelegate>
 
 @property (strong, nonatomic, nonnull) OSInAppMessageInternal *message;
-@property (strong, nonatomic, nonnull) WKWebView *webView;
+//@property (strong, nonatomic, nonnull) WKWebView *webView;
 @property (nonatomic) BOOL loaded;
 
 @end
@@ -94,7 +94,7 @@
         NSLog(@"222222 [self.webView loadHTMLString:html baseURL:url];");
         NSString *taggedHTML = [self addTagsToHTML:html];
         [OneSignal onesignal_Log:ONE_S_LL_VERBOSE message:[NSString stringWithFormat:@"loadedHtmlContent with Tags: \n%@", taggedHTML]];
-        [self.webView loadHTMLString:taggedHTML baseURL:url];
+//        [self.webView loadHTMLString:taggedHTML baseURL:url];
     });
 }
 
@@ -110,10 +110,10 @@
     mainBounds.size.width -= (2.0 * marginSpacing);
     
     // Setup WebView, delegates, and disable scrolling inside of the WebView
-    self.webView = [[WKWebView alloc] initWithFrame:mainBounds configuration:configuration];
-    self.webView.backgroundColor = [UIColor clearColor];
-    self.webView.opaque = NO;
-    [self addSubview:self.webView];
+//    self.webView = [[WKWebView alloc] initWithFrame:mainBounds configuration:configuration];
+//    self.webView.backgroundColor = [UIColor clearColor];
+//    self.webView.opaque = NO;
+//    [self addSubview:self.webView];
     
     [self layoutIfNeeded];
 }
@@ -124,31 +124,31 @@
  The issue is that text wrapping can cause incorrect height issues so width is the real concern here
  */
 - (void)resetWebViewToMaxBoundsAndResizeHeight:(void (^) (NSNumber *newHeight)) completion {
-    [self.webView removeConstraints:[self.webView constraints]];
+//    [self.webView removeConstraints:[self.webView constraints]];
     
     CGFloat marginSpacing = [OneSignalViewHelper sizeToScale:MESSAGE_MARGIN];
     CGRect mainBounds = UIScreen.mainScreen.bounds;
     mainBounds.size.width -= (2.0 * marginSpacing);
     
-    [self.webView setFrame:mainBounds];
-    [self.webView layoutIfNeeded];
+//    [self.webView setFrame:mainBounds];
+//    [self.webView layoutIfNeeded];
     
     // Evaluate JS getPageMetaData() method to obtain the updated height for the messageView to contain the webView contents
-    [self.webView evaluateJavaScript:OS_JS_GET_PAGE_META_DATA_METHOD completionHandler:^(NSDictionary *result, NSError *error) {
-        if (error) {
-            NSString *errorMessage = [NSString stringWithFormat:@"Javascript Method: %@ Evaluated with Error: %@", OS_JS_GET_PAGE_META_DATA_METHOD, error];
-            [OneSignal onesignal_Log:ONE_S_LL_ERROR message:errorMessage];
-            return;
-        }
-        NSString *successMessage = [NSString stringWithFormat:@"Javascript Method: %@ Evaluated with Success: %@", OS_JS_GET_PAGE_META_DATA_METHOD, result];
-        [OneSignal onesignal_Log:ONE_S_LL_VERBOSE message:successMessage];
-        
-        [self setupWebViewConstraints];
-
-        // Extract the height from the result and pass it to the current messageView
-        NSNumber *height = [self extractHeightFromMetaDataPayload:result];
-        completion(height);
-    }];
+//    [self.webView evaluateJavaScript:OS_JS_GET_PAGE_META_DATA_METHOD completionHandler:^(NSDictionary *result, NSError *error) {
+//        if (error) {
+//            NSString *errorMessage = [NSString stringWithFormat:@"Javascript Method: %@ Evaluated with Error: %@", OS_JS_GET_PAGE_META_DATA_METHOD, error];
+//            [OneSignal onesignal_Log:ONE_S_LL_ERROR message:errorMessage];
+//            return;
+//        }
+//        NSString *successMessage = [NSString stringWithFormat:@"Javascript Method: %@ Evaluated with Success: %@", OS_JS_GET_PAGE_META_DATA_METHOD, result];
+//        [OneSignal onesignal_Log:ONE_S_LL_VERBOSE message:successMessage];
+//
+//        [self setupWebViewConstraints];
+//
+//        // Extract the height from the result and pass it to the current messageView
+//        NSNumber *height = [self extractHeightFromMetaDataPayload:result];
+//        completion(height);
+//    }];
 }
 
 - (NSNumber *)extractHeightFromMetaDataPayload:(NSDictionary *)result {
@@ -158,25 +158,25 @@
 - (void)setupWebViewConstraints {
     [OneSignal onesignal_Log:ONE_S_LL_VERBOSE message:@"Setting up In-App Message WebView Constraints"];
     
-    [self.webView removeConstraints:[self.webView constraints]];
+//    [self.webView removeConstraints:[self.webView constraints]];
     
-    self.webView.translatesAutoresizingMaskIntoConstraints = false;
-    self.webView.UIDelegate = self;
-    self.webView.navigationDelegate = self;
-    self.webView.scrollView.delegate = self;
-    self.webView.scrollView.scrollEnabled = false;
-    
-    self.webView.layer.cornerRadius = 10.0f;
-    self.webView.layer.masksToBounds = true;
-    
-    if (@available(iOS 11, *))
-        self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    
-    [self.webView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = true;
-    [self.webView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = true;
-    [self.webView.topAnchor constraintEqualToAnchor:self.topAnchor].active = true;
-    [self.webView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
-    
+//    self.webView.translatesAutoresizingMaskIntoConstraints = false;
+//    self.webView.UIDelegate = self;
+//    self.webView.navigationDelegate = self;
+//    self.webView.scrollView.delegate = self;
+//    self.webView.scrollView.scrollEnabled = false;
+//
+//    self.webView.layer.cornerRadius = 10.0f;
+//    self.webView.layer.masksToBounds = true;
+//
+//    if (@available(iOS 11, *))
+//        self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+//
+//    [self.webView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = true;
+//    [self.webView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = true;
+//    [self.webView.topAnchor constraintEqualToAnchor:self.topAnchor].active = true;
+//    [self.webView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
+//
     [self layoutIfNeeded];
 }
 
@@ -185,11 +185,11 @@
  Otherwise a memory leak will occur and the entire view controller will be leaked
  */
 - (void)removeScriptMessageHandler {
-    [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"iosListener"];
+//    [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"iosListener"];
 }
 
 - (void)loadReplacementURL:(NSURL *)url {
-    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+//    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
 #pragma mark WKWebViewNavigationDelegate Methods

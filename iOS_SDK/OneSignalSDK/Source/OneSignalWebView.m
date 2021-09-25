@@ -44,11 +44,11 @@ UIViewController *viewControllerForPresentation;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _webView = [WKWebView new];
-    _webView.navigationDelegate = self;
-    [self.view addSubview:_webView];
+//    _webView = [WKWebView new];
+//    _webView.navigationDelegate = self;
+//    [self.view addSubview:_webView];
     
-    [self pinSubviewToMarginsWithSubview:_webView withSuperview:self.view];
+//    [self pinSubviewToMarginsWithSubview:_webView withSuperview:self.view];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
     
@@ -61,8 +61,8 @@ UIViewController *viewControllerForPresentation;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (_url)
-        [_webView loadRequest:[NSURLRequest requestWithURL:_url]];
+//    if (_url)
+//        [_webView loadRequest:[NSURLRequest requestWithURL:_url]];
 }
 
 - (void)dismiss:(id)sender {
@@ -70,7 +70,7 @@ UIViewController *viewControllerForPresentation;
         [self clearWebView];
     }];
 }
-
+/*
 -(void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     [_uiBusy startAnimating];
 }
@@ -86,7 +86,7 @@ UIViewController *viewControllerForPresentation;
 -(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [OneSignal onesignal_Log:ONE_S_LL_ERROR message:error.localizedDescription];
 }
-
+*/
 - (void)pinSubviewToMarginsWithSubview:(UIView *)subview withSuperview:(UIView *)superview {
     subview.translatesAutoresizingMaskIntoConstraints = false;
     
@@ -116,8 +116,8 @@ UIViewController *viewControllerForPresentation;
     
     if (navController.isViewLoaded && navController.view.window) {
         // navController is visible only refresh webview
-        if (_url)
-            [_webView loadRequest:[NSURLRequest requestWithURL:_url]];
+//        if (_url)
+//            [_webView loadRequest:[NSURLRequest requestWithURL:_url]];÷
         return;
     }
     
@@ -134,7 +134,7 @@ UIViewController *viewControllerForPresentation;
 }
 
 - (void)clearWebView {
-    [_webView loadHTMLString:@"" baseURL:nil];
+//    [_webView loadHTMLString:@"" baseURL:nil];
     if (viewControllerForPresentation) {
         [OneSignal onesignal_Log:ONE_S_LL_VERBOSE message:@"clearing web view"];
         [viewControllerForPresentation.view removeFromSuperview];
